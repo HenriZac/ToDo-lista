@@ -1,0 +1,14 @@
+[
+    {
+        "kuvaus": "Tee kurssi",
+        "tehty": true,
+        "prioriteetti": "korkea",
+        "deadline": "2026-02-01"
+    },
+    {
+        "kuvaus": "Uusi tehtävä",
+        "tehty": false,
+        "prioriteetti": "matala",
+        "deadline": "2026-09-29"
+    }
+]
