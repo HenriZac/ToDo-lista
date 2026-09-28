@@ -10,5 +10,11 @@
         "tehty": false,
         "prioriteetti": "matala",
         "deadline": "2026-09-29"
+    },
+    {
+        "kuvaus": "Tehtävä",
+        "tehty": false,
+        "prioriteetti": 2,
+        "deadline": "2026-09-28"
     }
 ]

@@ -1,5 +1,5 @@
+from storage import load_tasks, save_tasks
 from tasks import (
-    otsikko,
     nayta_tehtavat,
     lisaa_tehtava,
     merkitse_tehtava,
@@ -8,86 +8,64 @@ from tasks import (
     nayta_tekemattomat,
     nayta_tehdyt,
     hae_tehtavia,
-    nayta_tilastot
+    nayta_tilastot,
+    otsikko
 )
-
-from storage import (
-    load_tasks,
-    save_tasks
-)
-
-
-def nayta_paavalikko(tehtavat):
-    otsikko("TEHTAVALISTA")
-
-    tekemattomat = sum(
-        1
-        for tehtava in tehtavat
-        if not tehtava["tehty"]
-    )
-
-    tehdyt = sum(
-        1
-        for tehtava in tehtavat
-        if tehtava["tehty"]
-    )
-
-    print(
-        f"Tehtavia: {len(tehtavat)}"
-    )
-
-    print(
-        f"Tekemattomia: {tekemattomat}"
-    )
-
-    print(
-        f"Tehtyja: {tehdyt}"
-    )
-
-    print()
-    print("==============================")
-    print("1. Nayta tehtavat")
-    print("2. Lisaa tehtava")
-    print("3. Merkitse tehtava tehdyksi")
-    print("4. Muokkaa tehtavaa")
-    print("5. Poista tehtava")
-    print("6. Nayta tekemattomat")
-    print("7. Nayta tehdyt")
-    print("8. Hae tehtavia")
-    print("9. Tilastot")
-    print("10. Tallenna ja lopeta")
-    print("==============================")
 
 
 def main():
     tehtavat = load_tasks()
 
     while True:
+        otsikko("TEHTÄVÄLISTA")
 
-        nayta_paavalikko(tehtavat)
+        print("1. Näytä kaikki tehtävät")
+        print("2. Lisää tehtävä")
+        print("3. Merkitse tehtävä tehdyksi / tekemättömäksi")
+        print("4. Muokkaa tehtävää")
+        print("5. Poista tehtävä")
+        print("6. Näytä tekemättömät")
+        print("7. Näytä tehdyt")
+        print("8. Hae tehtäviä")
+        print("9. Näytä tilastot")
+        print("10. Tallenna ja lopeta")
 
-        valinta = input(
-            "\nValitse toiminto: "
-        ).strip()
+        valinta = input("\nValitse toiminto: ").strip()
 
         if valinta == "1":
             nayta_tehtavat(tehtavat)
 
         elif valinta == "2":
             lisaa_tehtava(tehtavat)
-            save_tasks(tehtavat)
+
+            onnistui = save_tasks(tehtavat)
+
+            if not onnistui:
+                print("Varoitus: tehtävän tallennus epäonnistui.")
 
         elif valinta == "3":
             merkitse_tehtava(tehtavat)
-            save_tasks(tehtavat)
+
+            onnistui = save_tasks(tehtavat)
+
+            if not onnistui:
+                print("Varoitus: muutoksen tallennus epäonnistui.")
 
         elif valinta == "4":
             muokkaa_tehtavaa(tehtavat)
-            save_tasks(tehtavat)
+
+            onnistui = save_tasks(tehtavat)
+
+            if not onnistui:
+                print("Varoitus: muutoksen tallennus epäonnistui.")
 
         elif valinta == "5":
             poista_tehtava(tehtavat)
-            save_tasks(tehtavat)
+
+            onnistui = save_tasks(tehtavat)
+
+            if not onnistui:
+                print("Varoitus: muutoksen tallennus epäonnistui.")
 
         elif valinta == "6":
             nayta_tekemattomat(tehtavat)
@@ -102,28 +80,21 @@ def main():
             nayta_tilastot(tehtavat)
 
         elif valinta == "10":
-            save_tasks(tehtavat)
+            onnistui = save_tasks(tehtavat)
 
-            otsikko("OHJELMA LOPETETAAN")
-
-            print(
-                "Tehtavat tallennettu."
-            )
-
-            print(
-                "Kiitos ohjelman kayttamisesta!"
-            )
+            if onnistui:
+                print("Tehtävät tallennettu. Ohjelma lopetetaan.")
+            else:
+                print(
+                    "Tehtävien tallennus epäonnistui. "
+                    "Ohjelma lopetetaan."
+                )
 
             break
 
         else:
-            print(
-                "\nVirheellinen valinta."
-            )
-
-            input(
-                "Paina Enter ja yrita uudelleen..."
-            )
+            print("Virheellinen valinta.")
+            input("Paina Enter jatkaaksesi...")
 
 
 if __name__ == "__main__":
